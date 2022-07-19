@@ -1,0 +1,204 @@
+{% extends "Base.html" %}
+<html>
+
+{% load static %}
+
+<link rel="stylesheet" href="{%static 'css/product_style.css'%}" />
+{% block title %}Medicine{% endblock %}
+<body id="body">
+
+{% block content %}
+<h1>Medicine Search</h1>
+<style>
+th,tr,td,table{
+border: 1px solid black;
+text-align: center;
+}
+.table{
+display:flex;
+justify-content: space-evenly;
+
+}
+.medicine,.cart{
+width:45%;
+}
+#cart > th{
+width:50%;
+}
+#btn-addtocart{
+margin-left:90%
+}
+.container {
+  padding: 2rem 0rem;
+}
+.container {
+  padding: 2rem 0rem;
+}
+
+.table-image {
+  
+  thead {
+    td, th {
+      border: 0;
+      color: #666;
+      font-size: 0.8rem;
+    }
+  }
+  
+  td, th {
+    vertical-align: middle;
+    text-align: center;
+    
+    &.qty {
+      max-width: 2rem;
+    }
+  }
+}
+
+.price {
+  margin-left: 1rem;
+}
+
+.modal-footer {
+  padding-top: 0rem;
+}
+</style>
+<!-- -----------------------------------------------------------------------------------------------------------------Button trigger modal-------->
+<button type="button" id="btn-addtocart" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add To Cart
+</button>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Your Shopping Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-image" >
+         <thead>
+            
+              <th scope="col">Item Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Total</th>
+              <th scope="col">Actions</th>
+            
+          </thead>
+          
+            
+               <tbody >
+                <tr id="cart">Ashok</tr>
+               </tbody>
+         
+          
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------------------------------------Modal-------->
+
+
+<div class="table">
+<div class="medicine">
+<table class="medicine-table">
+    <tr><th>S.No</th><th>Drug Code</th><th>Name of the Product</th><th>Unit Size</th><th>MRP</th><th>Add To Cart</th></tr>
+    <tbody id="medicine-table-body">
+    <tr id="medicine-table-tr">
+    {% for items in medicine %}
+        <td id="medicine-table-td">{{ forloop.counter }}</td>
+        <td id="medicine-table-td">{{items.drug_code}}</td>
+        <td id="medicine-table-td">{{items.medicine_name}}</td>
+        <td id="medicine-table-td">{{items.unit_size}} {{items.unit_value}}</td>
+        <td id="medicine-table-td">Rs.{{items.mrp}}</td>
+        <td>
+            <button class="btn btn-outline-success" onclick="addtocart({{items.id}},'{{items.medicine_name}}',{{items.mrp}})")">Add To Cart</button>
+        </td>
+    </tr>
+    </tbody>
+{% endfor %}
+</table>
+</div>
+<div id="medicine_search_table">
+
+</div>
+<div class="cart">
+<table >
+<th>Item Id</th><th>Item Name</th><th>Qty</th><th>MRP</th><th>Total</th>
+<tfoot>
+    <tr>
+        <td>Total:</td>
+    </tr>
+</tfoot>
+</table>
+</div>
+
+</div>
+
+
+{% endblock %}
+
+</body>
+
+
+{% block javascript %}
+<script type="text/javascript">
+   document.getElementById('search').addEventListener('keyup',Keyupfun)
+    function Keyupfun(){
+        var a=document.querySelectorAll('tr');
+		for (var i = 0;i<a.length; i++) {
+			var val=document.getElementById('search').value.toLowerCase();
+            console.log(val)
+			if (a[i].innerHTML.toLowerCase().indexOf(val)!=-1) {
+                a[i].style.display='';
+                
+			}
+			else{
+				a[i].style.display='none';
+			}
+		}
+	}
+
+</script>
+<script>
+function addtocart(a,b,mrp){
+    var empty_tr=document.createElement('tr');
+    var empty_td=document.createElement('td');
+    empty_td.innerHTML=a;
+    empty_tr.appendChild(empty_td)
+    var empty_td2=document.createElement('td');
+    empty_td2.innerHTML=b;
+    empty_tr.appendChild(empty_td2);
+    
+    var empty_td3=document.createElement('td');
+    var qty_input=document.createElement("INPUT");
+    qty_input.setAttribute("type", "test");
+    qty_input.setAttribute("value", "");
+    empty_td3.innerHTML=qty_input;
+    empty_tr.appendChild(empty_td3);
+
+
+    var empty_td4=document.createElement('td');
+    empty_td4.innerHTML=mrp;
+    empty_tr.appendChild(empty_td4);
+
+    var empty_td5=document.createElement('td');
+    empty_tr.appendChild(empty_td5);
+
+    document.getElementById("cart").appendChild(empty_tr);
+console.log("{{item.medicine_name}}");
+}
+</script>
+
+
+
+{% endblock %}
+</script>
+</html>
