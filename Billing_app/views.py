@@ -15,6 +15,5 @@ def sales(request):
     context["medicine"] = Medicine.objects.all()
     return render(request,'Sales.html',context)
 
-def addtocart(request,id):
-    item=Medicine.objects.get(id=id)
-    return render(request,'AddToCart.html',{'item':item})
+def addtocart(request):
+    return render(request,'AddToCart.html')

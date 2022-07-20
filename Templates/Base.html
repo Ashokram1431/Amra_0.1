@@ -31,7 +31,7 @@
           <a class="nav-link" href="{% url 'Sales'%}">Sales</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Add To Cart</a>
+          <a class="nav-link" href="{% url 'AddToCart'%}">Add To Cart</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,7 +55,7 @@
 </nav>
 </div>
 
-<div style="margin-left: 92%"style="margin-left: 96%"><a class=""  href="#">Add to Cart</a><a class=""href="#">Logout</a></div>
+<div style="margin-left: 96%"><a class=""href="#">Logout</a></div>
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="footer">
         {% block footer %}

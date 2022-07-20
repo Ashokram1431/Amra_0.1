@@ -65,7 +65,7 @@ margin-left:90%
 </style>
 <!-- -----------------------------------------------------------------------------------------------------------------Button trigger modal-------->
 <button type="button" id="btn-addtocart" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add To Cart
+  Add To Cart<sup id="cart_count" style="font-size:20px">0</sup>
 </button>
 
 
@@ -77,23 +77,16 @@ margin-left:90%
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="table table-image" >
-         <thead>
-            
-              <th scope="col">Item Name</th>
+        <table class="table table-image" id="cart_table" >
+              
+         <tbody id="cart_tbody">
+            <th scope="col" id="cart_th">Item Name</th>
               <th scope="col">Price</th>
               <th scope="col">Qty</th>
               <th scope="col">Total</th>
-              <th scope="col">Actions</th>
-            
-          </thead>
-          
-            
-               <tbody >
-                <tr id="cart">Ashok</tr>
-               </tbody>
-         
-          
+              <th scope="col">Actions</th
+         </tbody>
+        
         </table>
       </div>
       <div class="modal-footer">
@@ -119,7 +112,7 @@ margin-left:90%
         <td id="medicine-table-td">{{items.unit_size}} {{items.unit_value}}</td>
         <td id="medicine-table-td">Rs.{{items.mrp}}</td>
         <td>
-            <button class="btn btn-outline-success" onclick="addtocart({{items.id}},'{{items.medicine_name}}',{{items.mrp}})")">Add To Cart</button>
+            <button class="btn btn-outline-success" onclick="addtocart('{{items.medicine_name}}',{{items.mrp}})")">Add To Cart</button>
         </td>
     </tr>
     </tbody>
@@ -129,16 +122,7 @@ margin-left:90%
 <div id="medicine_search_table">
 
 </div>
-<div class="cart">
-<table >
-<th>Item Id</th><th>Item Name</th><th>Qty</th><th>MRP</th><th>Total</th>
-<tfoot>
-    <tr>
-        <td>Total:</td>
-    </tr>
-</tfoot>
-</table>
-</div>
+
 
 </div>
 
@@ -168,33 +152,49 @@ margin-left:90%
 
 </script>
 <script>
-function addtocart(a,b,mrp){
-    var empty_tr=document.createElement('tr');
-    var empty_td=document.createElement('td');
-    empty_td.innerHTML=a;
-    empty_tr.appendChild(empty_td)
-    var empty_td2=document.createElement('td');
-    empty_td2.innerHTML=b;
-    empty_tr.appendChild(empty_td2);
+function addtocart(medicine_name,mrp){
+    var tablerow=document.createElement('tr');
+    tablerow.innerHTML=medicine_name;
+    var item_price=document.createElement('td');
+    item_price.innerHTML=mrp;
+    tablerow.appendChild(item_price)
+    var qty=document.createElement('td');
+    var input=document.createElement("INPUT");
+    input.style.width="48px";
+    input.type="number";
+    input.min=1;
+    input.value=1;
+    qty.appendChild(input);
+    tablerow.appendChild(qty);
+    input.onchange=()=>{
+    total_input.value=input.value*mrp;
+    }
+    var total_td=document.createElement("td");
+    var total_input=document.createElement("INPUT");
+    total_input.style.width="48px";
+    total_input.value=input.value*mrp;
+    total_td.appendChild(total_input);
+    tablerow.appendChild(total_td);
+    var remove_td=document.createElement("td");
+    var remove_btn=document.createElement("button");
+    remove_btn.innerHTML="Remove";
+    remove_td.appendChild(remove_btn);
+    tablerow.appendChild(remove_td);
     
-    var empty_td3=document.createElement('td');
-    var qty_input=document.createElement("INPUT");
-    qty_input.setAttribute("type", "test");
-    qty_input.setAttribute("value", "");
-    empty_td3.innerHTML=qty_input;
-    empty_tr.appendChild(empty_td3);
+    var sum_td=document.createElement("td");
+    sum_td.innerHTML="Sum Items";
 
 
-    var empty_td4=document.createElement('td');
-    empty_td4.innerHTML=mrp;
-    empty_tr.appendChild(empty_td4);
 
-    var empty_td5=document.createElement('td');
-    empty_tr.appendChild(empty_td5);
-
-    document.getElementById("cart").appendChild(empty_tr);
-console.log("{{item.medicine_name}}");
+document.getElementById("cart_tbody").appendChild(tablerow);
+document.getElementById("cart_tbody").appendChild(sum_td);
+var cart_count = document.getElementById("cart_count");
+cart_count.innerHTML=cart_table.rows.length-1;
 }
+
+
+
+
 </script>
 
 
