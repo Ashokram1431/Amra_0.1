@@ -1,0 +1,82 @@
+{% extends "Base.html" %}
+<html>
+{% block title %}Sales{% endblock %}
+{% block content %}
+<style>
+th,tr,td,table{
+border: 1px solid black;
+text-align: center;
+
+}
+</style>
+<div>
+    <h3>Sales</h3>
+</div>
+<div>
+<center>
+    <table>
+    <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Items</th>
+      <th>Qty</th>
+      <th>MRP</th>
+      <th>Total</th>
+      <th>Add/Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><input type="text" id="search" autofocus></td>
+      <td><input id="qty" onchange="total()" type="number" value=1 min="1" step="1"></td>
+      <td><input id="mrp" type="number"size="5" ></td>
+      <td><input id="total"></td>
+      <td><a href="#">Add</a>/<a href="#">Remove</a></td>
+    </tr>   
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">Sum</td>
+      <td colspan="1"><input></td>
+    </tr>
+  </tfoot>
+    </table>
+
+
+</center>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+   document.getElementById('search').addEventListener('keyup',Keyupfun)
+    function Keyupfun(){
+       
+    
+		var a=document.querySelectorAll('tr');
+		for (var i = 0;i<a.length; i++) {
+			var val=document.getElementById('search').value.toLowerCase();
+			if (a[i].innerHTML.toLowerCase().indexOf(val)!=-1) {
+                a[i].style.display='';
+                
+			}
+			else{
+				a[i].style.display='none';
+			}
+		}
+	}
+
+</script>
+<script type="text/javascript">
+    function total(){
+        let qty=document.getElementById('qty').value;
+        let mrp=document.getElementById('mrp').value;
+        document.getElementById('total').value=qty*mrp;
+        console.log(qty*mrp);
+}
+    
+
+</script>
+{% endblock %}
+</html>
+

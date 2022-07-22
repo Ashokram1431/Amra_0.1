@@ -1,0 +1,103 @@
+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
+
+
+python3 -m django --version
+
+django-admin startproject billing
+
+python3 manage.py runserver 0:8000
+
+python manage.py startapp billing
+python3 manage.py makemigrations
+python3 manage.py createsuperuser
+
+ashok
+ashok
+
+
+
+var table = document.getElementById("myTable"),
+  sumVal = 0;
+for (var i = 1; i < table.rows.length; i++) {
+  sumVal = sumVal + parseF(table.rows[i].cells[2].innerHTML);
+}
+
+document.getElementById("val").innerHTML = "SubTotal =" + sumVal;
+console.log(sumVal);
+
+
+
+
+
+
+python3 manage.py migrate
+
+var price=[];
+var temp=0;
+for(i=0;i<cart_tbody.childElementCount-1;i++){
+var value=Number(tablerow.cells[3].lastElementChild.value);
+temp=temp+value;
+console.log(temp);
+
+price.push(temp);
+}
+console.log(price);
+
+
+console.log(price);
+console.log(tablerow.cells[3].lastElementChild.value);
+
+console.log("childElementCount:",cart_tbody.childElementCount-1);
+
+console.log(sum_total.innerHTML);
+ console.log(price);
+
+<img src="{% static 'Images/doctor.png' %}" alt="My image">
+
+readonly
+
+console.log(tablerow.cells[3].lastElementChild.value);
+var sum_tot=[0];
+var count=cart_tbody.childElementCount-1;
+for (var key in count){
+sum_tot.push(total_input.value)
+}
+console.log(sum_tot);
+var n=Number(total_input.value);
+console.log(sum_tot.push(n));
+console.log(sum_tot);
+if(tablerow.cells[0].innerHTML){
+
+console.log("childElementCount:",cart_tbody.childElementCount-1);
+
+}
+
+
+
+function addtocart(a,b,mrp){
+    var empty_tr=document.createElement('tr');
+    var empty_td=document.createElement('td');
+    empty_td.innerHTML=a;
+    empty_tr.appendChild(empty_td)
+    var empty_td2=document.createElement('td');
+    empty_td2.innerHTML=b;
+    empty_tr.appendChild(empty_td2);
+    
+    var empty_td3=document.createElement('td');
+    var qty_input=document.createElement("INPUT");
+    qty_input.setAttribute("type", "test");
+    qty_input.setAttribute("value", "");
+    empty_td3.innerHTML=qty_input;
+    empty_tr.appendChild(empty_td3);
+
+
+    var empty_td4=document.createElement('td');
+    empty_td4.innerHTML=mrp;
+    empty_tr.appendChild(empty_td4);
+
+    var empty_td5=document.createElement('td');
+    empty_tr.appendChild(empty_td5);
+
+    document.getElementById("cart").appendChild(empty_tr);
+console.log("{{item.medicine_name}}");
+}

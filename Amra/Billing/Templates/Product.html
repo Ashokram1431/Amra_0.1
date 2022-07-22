@@ -1,0 +1,223 @@
+{% extends "Base.html" %}
+<html>
+
+{% load static %}
+
+<link rel="stylesheet" href="{%static 'css/product_style.css'%}" />
+{% block title %}Medicine{% endblock %}
+<body id="body">
+
+{% block content %}
+<h1>Medicine Search</h1>
+<style>
+
+th,tr,td,table{
+border: 1px solid black;
+text-align: center;
+th{
+width:10%;
+}
+}
+.table{
+display:flex;
+justify-content: space-evenly;
+
+}
+.medicine,.cart{
+width:45%;
+}
+#cart > th{
+width:50%;
+}
+#btn-addtocart{
+margin-left:90%
+}
+.container {
+  padding: 2rem 0rem;
+}
+.container {
+  padding: 2rem 0rem;
+}
+
+.table-image {
+  
+  thead {
+    td, th {
+      border: 0;
+      color: #666;
+      font-size: 0.8rem;
+    }
+  }
+  
+  td, th {
+    vertical-align: middle;
+    text-align: center;
+    
+    &.qty {
+      max-width: 2rem;
+    }
+  }
+}
+
+.price {
+  margin-left: 1rem;
+}
+
+.modal-footer {
+  padding-top: 0rem;
+}
+</style>
+<!-- -----------------------------------------------------------------------------------------------------------------Button trigger modal-------->
+<button type="button" id="btn-addtocart" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Add To Cart<sup id="cart_count" style="font-size:20px">0</sup>
+</button>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Your Shopping Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+    
+        <table class="table table-image" id="cart_table" >
+              
+         <tbody id="cart_tbody" onload="cart()">
+            <tr id="cart_tr">
+            <th scope="col" id="cart_th">Item Name</th>
+            <th scope="col">Item_Code</th>
+              <th scope="col">Price</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Total</th>
+              <th scope="col">Actions</th
+             <tr>
+         </tbody>
+        </table>
+        <div class="sum_table">
+            <table id="sum_table">
+                <tr id="sum_table_tr"><td>Sum Items</td><td id="sum_items">Items:10</td></tr>
+                <tr><td>Sum Total</td><td id="sum_total">Rs.</td></tr>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="total()" class="btn btn">Total</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------------------------------------Modal-------->
+<div class="table">
+<div class="medicine">
+<table class="medicine-table">
+    <tr><th>S.No</th><th>Drug Code</th><th>Name of the Product</th><th>Unit Size</th><th>MRP</th><th>Add To Cart</th></tr>
+    <tbody id="medicine-table-body">
+    <tr id="medicine-table-tr">
+    {% for items in medicine %}
+        <td id="medicine-table-td">{{ forloop.counter }}</td>
+        <td id="medicine-table-td">{{items.drug_code}}</td>
+        <td id="medicine-table-td">{{items.medicine_name}}</td>
+        <td id="medicine-table-td">{{items.unit_size}} {{items.unit_value}}</td>
+        <td id="medicine-table-td">Rs.{{items.mrp}}</td>
+        <td>
+            <button class="btn btn-outline-success" onclick="addtocart('{{items.medicine_name}}',{{items.drug_code}},{{items.mrp}})")">Add To Cart</button>
+        </td>
+    </tr>
+    </tbody>
+{% endfor %}
+</table>
+</div>
+</div>
+{% endblock %}
+</body>
+{% block javascript %}
+<script type="text/javascript">
+   document.getElementById('search').addEventListener('keyup',Keyupfun)
+    function Keyupfun(){
+        var a=document.querySelectorAll('tr');
+		for (var i = 0;i<a.length; i++) {
+			var val=document.getElementById('search').value.toLowerCase();
+            console.log(val)
+			if (a[i].innerHTML.toLowerCase().indexOf(val)!=-1) {
+                a[i].style.display='';
+                
+			}
+			else{
+				a[i].style.display='none';
+			}
+		}
+	}
+
+</script>
+<script>
+function addtocart(medicine_name,drug_code,mrp){    
+var total=[];
+    var tablerow=document.createElement('tr');
+    tablerow.innerHTML=medicine_name;
+    tablerow.id="cart_table_tr";
+    var item_code=document.createElement('td');
+    item_code.innerHTML=drug_code;
+    tablerow.appendChild(item_code);
+    var item_price=document.createElement('td');
+    item_price.innerHTML=mrp;
+    tablerow.appendChild(item_price)
+    var qty=document.createElement('td');
+    var input=document.createElement("INPUT");
+    input.style.width="48px";
+    input.type="number";
+    input.min=1;
+    input.value=1;
+    qty.appendChild(input);
+    tablerow.appendChild(qty);
+
+    var total_td=document.createElement("td");
+    var total_input=document.createElement("INPUT");
+    total_input.id="price";
+    total_input.value=0;
+    total_input.style.width="48px";
+    total_input.value=input.value*mrp;
+    total_td.appendChild(total_input);
+    tablerow.appendChild(total_td);
+    var remove_td=document.createElement("td");
+    var remove_btn=document.createElement("button");
+    remove_btn.innerHTML="Remove";
+    remove_td.appendChild(remove_btn);
+    tablerow.appendChild(remove_td);
+    
+input.onchange=()=>{    
+    total_input.value=input.value*mrp;
+    }
+
+document.getElementById("cart_tbody").appendChild(tablerow);
+var cart_count = document.getElementById("cart_count");
+cart_count.innerHTML=cart_table.rows.length-1;
+sum_items.innerHTML=cart_tbody.childElementCount-1;
+
+
+}
+
+
+function remove(){
+var remove_element=document.getElementById("cart_table_tr");
+console.log(remove_element);
+}
+remove_btn.addEventListener('click', remove());
+
+
+function total(){
+var sum=0;
+for(i=1;i<cart_table.rows.length;i++)
+{
+var arr=Number(cart_table.rows[i].cells[3].firstChild.value);
+sum=sum+arr;
+}
+sum_total.innerHTML='Rs.'+ sum;
+}
+</script>
+{% endblock %}
+</script>
+</html>
